@@ -39,28 +39,33 @@ for suit in suits:
 
 # Functions to play the game
 
-hand = []
+player_hand = []
+dealer_hand = []
 
-def new_card(deck, hand):
+def new_card(hand):
     card = random.choice(deck)
     hand.append(card)
     deck.remove(card)
     return card
 
 def card_display(hand):
-    for i in hand:
-        print(i)
+    print('You have: ')
+    for card in hand:
+        print(card)
 
-def deal():
-    new_card(deck,hand)
-    new_card(deck,hand)
-    card_display(hand)
+def deal(hand):
+    new_card(hand)
+    new_card(hand)
 
 def score(hand):
     total = 0
     for card in hand:
         total += int(card.value())
     if total > 21:
+        for card in hand:
+            if int(card.value()) == 11:
+                total -= 10
+                return total
         print('Your total is ' + str(total) + '! BUST!')
         quit()
     return total
@@ -68,14 +73,20 @@ def score(hand):
 def score_display(hand):
     print("Your current total is: " + str(score(hand)))
 
-def choose():
+def dealer_display():
+    print('Dealer has:')
+    for card in dealer_hand:
+        print(card)
+
+def choose(hand):
     while True:
         choice = input('Hit or Stay: ')
         if choice == 's':
-            print('You chose to stay. Your total score was: ' + str(score(hand)))
-            break
+            total = score(hand)
+            print('You chose to stay. Your total score was: ' + str(total))
+            return total
         elif choice == 'h':
-            print('You drew a ' + str(new_card(deck,hand)))
+            print('You drew the ' + str(new_card(hand)))
             for i in hand:
                 print(i)
             print('Your current total is: ' + str(score(hand)))
@@ -84,12 +95,41 @@ def choose():
             print('Enter valid input')
             continue
 
-deal()
-score_display(hand)
-choose()
+def dealer(hand):
+    while True:
+        total = 0
+        for card in hand:
+            total += int(card.value())
+        if total > 21:
+            dealer_display()
+            print('Dealer busts with ' + str(total) + '! You win!')
+            quit()
+        elif total < 17:
+            dealer_display()
+            print('Dealer hits')
+            new_card(dealer_hand)
+            continue
+        else:
+            dealer_display()
+            print('Dealer stays')
+            return total
 
+def winner(p,d):
+    print('Dealer\'s total is: ' + str(d))
+    if d >= p:
+        print('You lose')
+    else:
+        print('You win')
 
+def play():
+    deal(dealer_hand)
+    print('Dealer has:\n' + str(dealer_hand[0]) + '\n?')
+    deal(player_hand)
+    card_display(player_hand)
+    score_display(player_hand)
+    winner(choose(player_hand),dealer(dealer_hand))
 
+play()
 
 
 # for suit in suits:
@@ -107,10 +147,3 @@ choose()
 #         else: 
 #             card_string = '-'*8+'\n' + ('|'+' '*3 + card_value_display + ' |'+'\n') + ('|'+' '*6+'|'+'\n')*3 + '-'*8
 #             print(card_string)
-
-
-
-
-
-
-# print(card_frame)
