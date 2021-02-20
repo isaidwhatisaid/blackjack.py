@@ -49,7 +49,7 @@ def new_card(hand):
     return card
 
 def card_display(hand):
-    print('You have: ')
+    print('\nYou have: ')
     for card in hand:
         print(card)
 
@@ -71,7 +71,11 @@ def score(hand):
     return total
 
 def score_display(hand):
-    print("Your current total is: " + str(score(hand)))
+    x = score(hand)
+    print("Your current total is: " + str(x) + '\n')
+    if x == 21:
+        print('Blackjack! You win!\n')
+        quit()
 
 def dealer_display():
     print('Dealer has:')
@@ -83,13 +87,13 @@ def choose(hand):
         choice = input('Hit or Stay: ')
         if choice == 's':
             total = score(hand)
-            print('You chose to stay. Your total score was: ' + str(total))
+            print('You chose to stay. Your total score was: ' + str(total) + '\n')
             return total
         elif choice == 'h':
-            print('You drew the ' + str(new_card(hand)))
+            print('You drew the ' + str(new_card(hand)) + '\n')
             for i in hand:
                 print(i)
-            print('Your current total is: ' + str(score(hand)))
+            print('Your current total is: ' + str(score(hand)) + '\n')
             continue
         else:
             print('Enter valid input')
@@ -102,24 +106,24 @@ def dealer(hand):
             total += int(card.value())
         if total > 21:
             dealer_display()
-            print('Dealer busts with ' + str(total) + '! You win!')
+            print('Dealer busts with ' + str(total) + '! You win!\n')
             quit()
         elif total < 17:
             dealer_display()
-            print('Dealer hits')
+            print('Dealer hits\n')
             new_card(dealer_hand)
             continue
         else:
             dealer_display()
-            print('Dealer stays')
+            print('Dealer stays\n')
             return total
 
 def winner(p,d):
-    print('Dealer\'s total is: ' + str(d))
+    print('Dealer\'s total is: ' + str(d) + '\n')
     if d >= p:
-        print('You lose')
+        print('You lose!\n')
     else:
-        print('You win')
+        print('You win!\n')
 
 def play():
     deal(dealer_hand)
@@ -129,6 +133,7 @@ def play():
     score_display(player_hand)
     winner(choose(player_hand),dealer(dealer_hand))
 
+print('\n')
 play()
 
 
