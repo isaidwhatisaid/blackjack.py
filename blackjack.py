@@ -87,10 +87,10 @@ def choose(hand):
         choice = input('Hit or Stay: ')
         if choice == 's':
             total = score(hand)
-            print('You chose to stay. Your total score was: ' + str(total) + '\n')
+            print('You chose to stay. Your total score is: ' + str(total) + '\n\n' + '-'*50 + '\n')
             return total
         elif choice == 'h':
-            print('You drew the ' + str(new_card(hand)) + '\n')
+            print('\n' + '-'*50 + '\n\nYou drew the ' + str(new_card(hand)) + '\nCurrent hand:')
             for i in hand:
                 print(i)
             print('Your current total is: ' + str(score(hand)) + '\n')
@@ -106,16 +106,16 @@ def dealer(hand):
             total += int(card.value())
         if total > 21:
             dealer_display()
-            print('Dealer busts with ' + str(total) + '! You win!\n')
+            print('Dealer busts with ' + str(total) + '!\n\nYou win!\n')
             quit()
         elif total < 17:
             dealer_display()
-            print('Dealer hits\n')
+            print('Dealer hits\n\n' + '-'*50 + '\n')
             new_card(dealer_hand)
             continue
         else:
             dealer_display()
-            print('Dealer stays\n')
+            print('Dealer stays\n\n' + '-'*50 + '\n')
             return total
 
 def winner(p,d):
@@ -127,13 +127,12 @@ def winner(p,d):
 
 def play():
     deal(dealer_hand)
-    print('Dealer has:\n' + str(dealer_hand[0]) + '\n?')
+    print('\nDealer has:\n' + str(dealer_hand[0]) + '\n?')
     deal(player_hand)
     card_display(player_hand)
     score_display(player_hand)
     winner(choose(player_hand),dealer(dealer_hand))
 
-print('\n')
 play()
 
 
